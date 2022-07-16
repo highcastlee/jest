@@ -6,31 +6,18 @@ const fetchData = async (url) => {
       throw new Error("fetch error");
     });
 };
-
 // ===================================
-
-test("데이터는 sunt를 포함한다.", async () => {
-  // 실제 data : "sunt aut facere repellat ..."
-  const data = await fetchData("https://jsonplaceholder.typicode.com/posts");
-  expect(data).toMatch(/sunt/);
-});
-
-test("fetch 실패하면, 에러를 던진다.", async () => {
-  expect.assertions(1);
-  try {
-    await fetchData("/user");
-  } catch (e) {
-    expect(e).toThrow(/error/);
-  }
-});
-
-// ===================================
-// 위의 두 테스트 코드는 문법적 설탕으로 다음과 같이 바꿀 수 있다.
+// expect 반환 값의 메서드로 resolves와 rejects 라는 matcher 사용 가능
+// resolves : promise의 resolve 결과 값
+// rejects : promise의 rejects 결과 값
 
 test("데이터는 sunt를 포함한다", async () => {
-  await expect(fetchData("https://jsonplaceholder.typicode.com/posts")).resolves.toMatch(/sunt/);
+  const url = "https://jsonplaceholder.typicode.com/posts";
+  await expect(fetchData(url)).resolves.toMatch(/sunt/);
 });
 
 test("fetch 실패하면, 에러를 던진다", async () => {
   await expect(fetchData("/user")).rejects.toThrow(Error);
 });
+
+// ==========================================================
